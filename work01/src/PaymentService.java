@@ -1,17 +1,16 @@
-import java.util.function.Consumer;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 public class PaymentService {
 
-    void pay(Consumer<String> consumer){
+    Future<String> pay(){
         // Non-Blocking
-        new Thread( () -> {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            consumer.accept("Done");
-        }).start();
+        FutureTask<String> future = new FutureTask<>(() -> {
+            Thread.sleep(1000);
+            return "Done";
+        });
+        new Thread(future).start();
+        return future;
     }
 
 }

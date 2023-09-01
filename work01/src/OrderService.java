@@ -1,3 +1,6 @@
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 public class OrderService {
 
     private final PaymentService paymentService;
@@ -7,17 +10,20 @@ public class OrderService {
     }
 
     void process() {
-        this.paymentService.pay( r -> {
-            System.out.println("Process done");
-        });
         System.out.println("Called");
+        Future<String> result =  this.paymentService.pay();
+        System.out.println("Done");
+        try {
+            System.out.println("Receive result = " + result.get());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
         PaymentService paymentService = new PaymentService();
         OrderService orderService = new OrderService(paymentService);
-        orderService.process();
         orderService.process();
         orderService.process();
 
