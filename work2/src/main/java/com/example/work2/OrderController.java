@@ -18,7 +18,7 @@ public class OrderController {
 
     @GetMapping("/process")
     public Mono<String> process() {
-        return factory.create("delay").run(paymentService.pay(), r -> {
+        return factory.create("delay-from-payment-service").run(paymentService.pay(), r -> {
             System.out.println("Error with delay ....");
             return Mono.just("Error");
         });
