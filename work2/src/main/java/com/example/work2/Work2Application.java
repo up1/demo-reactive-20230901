@@ -22,13 +22,10 @@ public class Work2Application {
 	public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
 		return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
 				.circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-				.circuitBreakerConfig(
-						CircuitBreakerConfig.custom()
-								.failureRateThreshold(10)
-								.slowCallRateThreshold(5).build()
-				)
 				.timeLimiterConfig(TimeLimiterConfig.custom()
-						.timeoutDuration(Duration.ofSeconds(3)).build()).build());
+						.timeoutDuration(Duration.ofSeconds(3)).build())
+				.circuitBreakerConfig(CircuitBreakerConfig.custom().failureRateThreshold(10)
+						.slowCallRateThreshold(5).slowCallRateThreshold(2).build()).build());
 	}
 
 }
