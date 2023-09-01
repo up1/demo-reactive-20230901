@@ -10,24 +10,27 @@ public class OrderService {
     }
 
     void process() {
+        this.paymentService.pay().thenAccept(
+                result -> {
+                    System.out.println("Done");
+                }
+        );
         System.out.println("Called");
-        Future<String> result =  this.paymentService.pay();
-        System.out.println("Done");
-        try {
-            System.out.println("Receive result = " + result.get());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         long start = System.currentTimeMillis();
         PaymentService paymentService = new PaymentService();
         OrderService orderService = new OrderService(paymentService);
         orderService.process();
         orderService.process();
+        orderService.process();
+        orderService.process();
+        orderService.process();
 
         System.out.println("Total time : " + (System.currentTimeMillis() - start));
+
+        Thread.sleep(1000);
     }
 
 }

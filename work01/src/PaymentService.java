@@ -1,16 +1,20 @@
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 public class PaymentService {
 
-    Future<String> pay(){
+    CompletionStage<String> pay(){
         // Non-Blocking
-        FutureTask<String> future = new FutureTask<>(() -> {
-            Thread.sleep(1000);
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             return "Done";
         });
-        new Thread(future).start();
-        return future;
     }
 
 }
