@@ -35,8 +35,8 @@ class PaymentService {
     }
 
     Mono<String> pay() {
-        return rest.get().uri("/delay/5").retrieve().bodyToMono(String.class);
-//        return Mono.just("Delay").delayElement(Duration.ofSeconds(10));
+//        return rest.get().uri("/delay/5").retrieve().bodyToMono(String.class);
+        return Mono.just("Delay").delayElement(Duration.ofSeconds(10));
     }
 
 }
