@@ -21,3 +21,32 @@ public class OrderService {
     }
 
 }
+
+
+interface A {
+    void doSth(String result);
+}
+
+class Caller implements  A {
+    @Override
+    public void doSth(String result) {
+        System.out.println("Received = " + result);
+    }
+
+    void process() {
+        Target target = new Target();
+        target.call(this);
+    }
+
+    public static void main(String[] args) {
+        Caller caller = new Caller();
+        caller.process();
+    }
+}
+
+class Target {
+    void call(A a) {
+        // TODO
+        a.doSth("Result from target");
+    }
+}
