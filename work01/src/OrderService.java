@@ -7,13 +7,17 @@ public class OrderService {
     }
 
     void process() {
-        this.paymentService.pay();
+        this.paymentService.pay( r -> {
+            System.out.println("Process done");
+        });
+        System.out.println("Called");
     }
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
         PaymentService paymentService = new PaymentService();
         OrderService orderService = new OrderService(paymentService);
+        orderService.process();
         orderService.process();
         orderService.process();
 
