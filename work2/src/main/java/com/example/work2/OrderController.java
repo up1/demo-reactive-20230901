@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @RestController
 public class OrderController {
@@ -13,14 +16,22 @@ public class OrderController {
 
     @GetMapping("/process")
     public Mono<String> process() {
-        return Mono.just("Hello");
+        return paymentService.pay();
     }
 }
 
 @Service
 class PaymentService {
 
-    void pay() {
+    private WebClient rest;
+
+    public PaymentService(WebClient.Builder builder) {
+        rest = builder.baseUrl("https://httpbin.org").build();
+    }
+
+    Mono<String> pay() {
+        return rest.get().uri("/get").retrieve().bodyToMono(String.class);
+//        return Mono.just("Delay").delayElement(Duration.ofSeconds(10));
     }
 
 }
